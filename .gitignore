@@ -1,0 +1,12 @@
+posterminal
+.env
+accounts/__pycache__
+accounts/migrations
+auth_accounts/__pycache__
+auth_accounts/migrations
+product/migrations
+product/__pycache__
+restock/__pycache__
+restock/migrations
+sales_orders/__pycache__
+sales_orders/migrations
