@@ -1,0 +1,182 @@
+{% extends "base.html" %}
+{% load static %}
+{% load crispy_forms_tags %}
+{% block head %}
+{{daily_restock.restock_date}}'s Production Details
+
+{% endblock head %}
+
+{% block breadcrumb %}
+
+    <li class="breadcrumb-item"><a href="#">Home</a></li>
+    <li class="breadcrumb-item"><a href="{% url 'production:manage_restock'  %}">All Production</a></li>
+    <li class="breadcrumb-item active">{{daily_restock.restock_date}}'s Production Details</li>
+
+{% endblock breadcrumb %}
+
+{% block content%}
+<div class='row'>
+  
+    <div class="col-md-12 col-sm-12 novalidate">
+        
+        <div class="row">
+                    <div class="col-lg">
+                        <div class="card card-dark card-outline">
+                            <div class="card-header">
+                                <h3 class="card-title">{{daily_restock.restock_date}}'s Production Details</h3>
+                            </div>
+                            <!-- /.card-header -->
+                            <!-- form start -->
+                            <form role="form" method="POST" enctype="multipart/form-data" novalidate>
+                                {% csrf_token %}
+                                <div class="card-body">
+                                    <div class="row">
+                                        
+                                        <div class="form-group  col-12 col-md-4">
+                                            <label for="">Staff</label>
+                                            <input type="text" name='profile' value="{{daily_restock_details.profile}}" list="stafflist" Placeholder="Search for staff.." class="form-control" required >
+                                            <datalist id="stafflist">
+                                                {% for item in profiles %}
+                                                       <option value="{{item.profile_code}}">
+                                                {% endfor %}
+                                            </datalist>
+                                        </div>
+                                        <div class="form-group  col-12 col-md-4">
+                                            <label for="">Product</label>
+                                            <input type="text" name='product' value="{{daily_restock_details.product}}" list="productlist" Placeholder="Search for product.." class="form-control" required >
+                                            <datalist id="productlist">
+                                                {% for item in products %}
+                                                       <option value="{{item.name}}">
+                                                {% endfor %}
+                                            </datalist>
+                                        </div>
+                                        <div class="form-group col-12 col-sm-12 col-md-4">
+                                            <label for="">Quantity Produced (in bags) </label>
+                                            {{ form.quantity_produced|as_crispy_field }}
+                                        </div>
+                                        
+                                        
+                                    </div>
+                                    
+                                    
+                                    <div class="row">
+                                        <div class="form-group col">
+                                            <button type="submit" class="btn btn-outline-dark btn-sm">Submit</button>
+                                        </div>
+                                        
+                                        
+                                    </div>
+                                </div> 
+                                
+                                    
+                            </form>
+
+                            <br>
+                            
+                            {% if daily_restock_details %}
+                                <div class="row ">
+                                    <div class="col-4 col-md-4">
+                                        <div class="info-box">
+                                        <span class="info-box-icon bg-warning elevation-1"
+                                            ><i class="ion ion-stats-bars"></i
+                                        ></span>
+                                
+                                        <div class="info-box-content">
+                                            <span class="info-box-text">Shift Wages</span>
+                                            <span class="info-box-number"> GH&#8373 {{daily_restock.total_wages}} </span>
+                                        </div>
+                                        <!-- /.info-box-content -->
+                                        </div>
+                                        <!-- /.info-box -->
+                                    </div>
+                                </div>
+                            <div class="m-4">
+                                <div id="example2_wrapper" class="dataTables_wrapper dt-bootstrap4">
+                                    <div class="row">
+                                        <div class="col-sm-12">
+                                            <table id="example2" class="table   table-hover" role="grid"
+                                                aria-describedby="example2_info">
+                                                <thead class="">
+                                                    <tr role="row">
+                    
+                                                        
+                                                        <th class="sorting" tabindex="0" aria-controls="example2" rowspan="1" colspan="1"
+                                                            aria-label="Browser: activate to sort column ascending">ID</th>
+                                                        
+                                                        <th class="sorting" tabindex="0" aria-controls="example2" rowspan="1" colspan="1"
+                                                            aria-label="Browser: activate to sort column ascending">Date</th>
+                                                        
+                                                        <th class="sorting" tabindex="0" aria-controls="example2" rowspan="1" colspan="1"
+                                                            aria-label="Browser: activate to sort column ascending">Product</th>
+                                                        
+                                                        <th class="sorting" tabindex="0" aria-controls="example2" rowspan="1" colspan="1"
+                                                            aria-label="Browser: activate to sort column ascending">Staff</th>
+
+                                                        
+                                                        <th class="sorting" tabindex="0" aria-controls="example2" rowspan="1" colspan="1"
+                                                            aria-label="Browser: activate to sort column ascending">Quantity Producted</th>
+
+                                                        <th class="sorting" tabindex="0" aria-controls="example2" rowspan="1" colspan="1"
+                                                            aria-label="Browser: activate to sort column ascending">Wages For Quantity Produced</th>
+
+                                                        <!-- <th class="sorting" tabindex="0" aria-controls="example2" rowspan="1" colspan="1"
+                                                            aria-label="CSS grade: activate to sort column ascending">Action</th> -->
+                                                        
+                                                       
+                                                    </tr>
+                                                </thead>
+                                                <tbody>
+                                                    {% for a in daily_restock_details %}
+                                                    </tr>
+                                                    <tr role="row" class="odd">
+                                                        <td>{{ a.id}}</td>
+                                                        <td>
+                                                            
+                                                            {{ a.restock.restock_date }}
+                                                        </td>
+                                                        <td>{{ a.product}}</td>
+                                                        <td>{{ a.profile.name}}</td>
+                                                        <td>{{ a.quantity_produced}} bags</td>
+                                                        <td>GHC {{  a.wages}}</td>
+                                                        <!-- <td>
+                                                            
+                                                            {% if a.outstanding > 0 %}
+                                                                <a class="btn btn-sm  btn-outline-warning" href="{% url 'production:item_production_history' a.id %}">History</a>
+                                                            {% endif %}
+                                                                
+                                                            
+                                                          
+                                                            
+                                                        </td> -->
+                                                     
+                                                    </tr>
+                    
+                                                    {% endfor %}
+                    
+                                                </tbody>
+                    
+                                            </table>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            {% else %}
+                            <div class="m-4">
+                                <div class="jumbotron">
+                                    <div class="col-md-10 mx-auto">
+                                      <p class="d-flex justify-content-center"><b>No Daily Production Information</b></p>
+                                    </div>
+                                </div> 
+                            </div>  
+                            {% endif %}
+
+                           
+                        </div>
+                   </div>           
+    
+        </div>
+    
+    </div>
+
+</div>
+{% endblock %}

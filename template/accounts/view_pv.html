@@ -1,0 +1,197 @@
+{% extends 'base.html' %}
+{% load crispy_forms_tags %}
+
+{% block content %}
+<div class="row">
+    <div class="col-lg">
+        <div class="card  card-primary card-outline p-4 m-4">
+            
+                <div class="card-header">
+                    <h3 class="profile-username text-center text-muted">Smart Church</h3>
+                    <ul class="list-group list-group-unbordered mb-3">
+                        <li class="list-group-item">
+                            <b>Pv No.</b> <a class="float-right text-muted">{{order.id}}</a>
+                        </li>
+                        <li class="list-group-item">
+                            <b>Description</b> <a class="float-right text-muted">{{order.description}}</a>
+                        </li>
+                        <li class="list-group-item">
+                            <b>Status</b> <a class="float-right text-muted">
+                            {% if order.status == "pending" %}
+                              <span class="badge badge-pill badge-warning">{{ order.status }}</span>
+                            {% elif order.status == "approved" %}
+                              <span class="badge badge-pill badge-primary">{{ order.status }}</span>
+                           {% else %}
+                              <span class="badge badge-pill badge-danger">{{ order.status }}</span>
+                           {% endif %}
+                                
+                            </a>
+                        </li>
+                        <li class="list-group-item">
+                            <b>Sub Code</b> <a class="float-right text-muted">{{order.sub_account.sub_code }} -- {{order.sub_account.sub_description}}</a>
+                        </li>
+                        <li class="list-group-item">
+                            <b>Amount</b> <a class="float-right text-muted">{{order.amount}} </a>
+                        </li>
+    
+    
+                        <li class="list-group-item">
+                            <b>Date</b> <a class="float-right text-muted">{{order.transaction_date}}</a>
+                        </li>
+                        <li class="list-group-item">
+                            <b>Church</b> <a class="float-right text-muted">{{order.church.church_name}}</a>
+                        </li>
+
+                    </ul>
+                    <div>
+                        {% if order.status == "Pending" or order.status == 'pending' %}
+                            <a class="btn btn-sm  btn-outline-primary " href="{% url 'accounts:approve' order.id %}">Approve</a>
+                            <a class="btn btn-sm  btn-outline-danger ml-4" href="{% url 'accounts:cancelled' order.id %}">Cancel</a>
+
+                            <a class="btn btn-sm  btn-outline-warning ml-4" href="{% url 'accounts:pv_detail' order.id %}">Adjust Pv</a>
+                        {% else %}
+                         {% endif %}
+               
+                       
+                        
+                    </div>
+                    
+                </div>
+                <div class="card-body ">
+                    <table class="table table-striped table-sm" id="my_friends">
+                        <thead>
+                            <tr>
+                                <th>Description</th>
+                                <th>Amount</th>
+                                
+
+
+
+                            </tr>
+                        </thead>
+                        <tbody>
+                            {% for item in detail %}
+                            <tr>
+                                <td>{{item.description}}</td>
+                                <td>{{item.amount}}</td>
+                               
+
+
+                            </tr>
+                            {% endfor %}
+                            <tr>
+                            
+                                <td></td>
+                                <td></td>
+                            </tr>
+                            <tr>
+                               
+                                <td></td>
+                                <td></td>
+                            </tr>
+
+                            <tr>
+
+                                
+                                <td><b>Sub Total</b></td>
+                                <td><b>{{order.amount}}</b> </td>
+
+                            </tr>
+                            
+
+                            
+
+
+
+                        </tbody>
+                    </table>
+                    
+                
+                    <br>
+                    <br>
+                    {% if general_ledger %}
+                    <div class='m-2'>
+                        <h5>PV Reference In General Ledger </h5>
+                    <div id="example1_wrapper" class="dataTables_wrapper dt-bootstrap4">
+                        <div class="row">
+                            <div class="col-12 col-sm-12 col-md-12">
+                                
+                                <table  class="table table-striped  table-sm" role="grid"
+                                    aria-describedby="example2_info">
+                                    <thead>
+                                        <tr>
+                                            <th>ID</th>
+                                            <th>REF. No</th>
+                                            <th>Date</th>
+                                            <th>Sub Code</th>
+                                            <th>Description</th>
+                                            <th>DR   (GH&#8373)</th>
+                                            <th>CR   (GH&#8373)</th>
+                                        
+                                            <th>Created By</th>
+
+                                            
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        {% for item in general_ledger %}
+                                        <tr>
+                                            <td>{{item.id}}</td>
+                                            <td>{{item.transactionref}}</td>
+                                            <td>{{item.transaction_date}}</td>
+                                            <td>{{item.sub_code.sub_code }} -- {{item.sub_code.sub_description}} </td>
+                                            <td>{{item.description}}</td>
+                                            
+                                            <td>
+                                                {% if item.debit > 0 %}
+                                                GH&#8373 {{item.debit}} 
+                                                {% else %}
+
+                                                {% endif %}
+                                            
+                                            </td>
+                                            <td>
+                                                {% if item.cedit > 0 %}
+                                                GH&#8373 {{item.cedit}} 
+                                                {% else %}
+                                                    
+                                                {% endif %}
+                                                
+                                            </td>
+                                            
+                                            <td>{{item.created_by}} -- {{item.created_by.first_name}}</td>
+                                        
+
+                                        </tr>
+                                        {% endfor %}
+                                       
+                                    </tbody>
+        
+                                </table>
+                            </div>
+                            
+                        </div>
+                    </div>
+                    </div>
+                    {% else %}
+                    <div class="jumbotron">
+                        <div class="col-md-10 mx-auto">
+                        <p class="d-flex justify-content-center"><b>No Ledger Transaction</b></p>
+                        </div>
+                    </div>  
+                    {% endif %}
+                    
+                    <div class="form-row">
+                        <div class="col text-center">
+                            <a class="btn btn-outline-danger mt-2 ml-2" href="{% url 'accounts:manage_pv' %}">Close </a>
+                        </div>
+                    </div>
+                </div>
+
+            
+            
+        </div>
+    </div>
+
+</div> 
+{% endblock %}

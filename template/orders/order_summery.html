@@ -1,0 +1,223 @@
+{% extends "base.html" %}
+{% load static %}
+{% load crispy_forms_tags %}
+{% block head %}
+{{order.order_date}}'s Sales Details
+
+{% endblock head %}
+
+{% block breadcrumb %}
+    <li class="breadcrumb-item"><a href="#">Home</a></li>
+    <li class="breadcrumb-item"><a href="{% url 'orders:manage_orders'  %}">All Orders</a></li>
+    <li class="breadcrumb-item active">{{order.order_date}}'s Sales Details</li>
+{% endblock breadcrumb %}
+
+{% block content%}
+<div class='row'>
+  
+    <div class="col-md-12 col-sm-12 novalidate">
+        
+        <div class="row">
+                    <div class="col-lg">
+                        <div class="card card-dark card-outline">
+                            <div class="card-header">
+                                <h3 class="card-title">{{order.order_date}}'s Sales Details</h3> <br>
+                                <ul class="list-group list-group-unbordered mb-3">
+                                    <li class="list-group-item">
+                                        <b>Status : </b> <a class="text-muted">
+                                            {% if order.status == "pending" %}
+                                              <span class="badge badge-pill badge-danger">{{ order.status }}</span>
+                                            {% elif order.status == "approved" %}
+                                             <span class="badge badge-pill badge-warning">{{ order.status }}</span>
+                                           {% else %}
+                                              <span class="badge badge-pill badge-primary">{{ order.status }}</span>
+                                           {% endif %} 
+                                            </a>
+                                    </li>
+                                    <li class="list-group-item">
+                                        
+                                        {% if order.status == "pending" %}
+                                            <a class="btn  btn-outline-primary" href="{% url 'orders:approve_order' order.id %}">Approve Supply</a>
+                                        {% elif order.status == "approved" %}
+                                             <a class="btn  btn-outline-primary" href="{% url 'orders:comfirm_order' order.id %}">Comfirm Supply</a>
+                                        {% else %}
+                                            
+                                            
+                                        {% endif %}
+                                            
+                                       
+                                    </li>
+                                </ul>
+                            </div>
+                            <!-- /.card-header -->
+                            <!-- form start -->
+                         
+                            <br>
+                            
+                            {% if details %}
+                            <div class="m-4">
+                                <div id="example2_wrapper" class="dataTables_wrapper dt-bootstrap4">
+                                    <div class="row">
+                                        <div class="col-sm-12">
+                                            <table id="example2" class="table   table-hover" role="grid"
+                                                aria-describedby="example2_info">
+                                                <thead class="">
+                                                    <tr role="row">
+                    
+                                                        
+                                                        <th class="sorting" tabindex="0" aria-controls="example2" rowspan="1" colspan="1"
+                                                            aria-label="Browser: activate to sort column ascending">ID</th>
+                                                        
+                                                        <th class="sorting" tabindex="0" aria-controls="example2" rowspan="1" colspan="1"
+                                                            aria-label="Browser: activate to sort column ascending">Item</th>
+                                                        
+                                                        <th class="sorting" tabindex="0" aria-controls="example2" rowspan="1" colspan="1"
+                                                            aria-label="Browser: activate to sort column ascending">Unit Price</th>
+                                                        
+                                                        <th class="sorting" tabindex="0" aria-controls="example2" rowspan="1" colspan="1"
+                                                            aria-label="Browser: activate to sort column ascending">Quantity</th>
+
+                                                        <th class="sorting" tabindex="0" aria-controls="example2" rowspan="1" colspan="1"
+                                                            aria-label="Browser: activate to sort column ascending">Amount</th>
+
+                                                       
+
+                                                        
+                                                       
+                                                    </tr>
+                                                </thead>
+                                                <tbody>
+                                                    {% for a in  details %}
+                                                    </tr>
+                                                    <tr role="row" class="odd">
+                                                        <td>{{ a.id}}</td>
+                                                        <td>
+                                                            
+                                                            {{ a.item }}
+                                                        </td>
+                                                        <td>{{ a.unit_price}}</td>
+                                                        <td>{{ a.quantity}} bags</td>
+                                                        <td>{{ a.gross_price}}</td>
+                                                        
+                                                       
+                                                        
+                                                     
+                                                    </tr>
+                    
+                                                    {% endfor %}
+                                                    <tr role="row" class="odd">
+                                                       
+                                                        
+                                                        <td></td>
+                                                        <td></td>
+                                                        <td> <b>Total</b> </td>
+                                                        <td></td>
+                                                        
+                                                        <td> <b>{{tt}}</b> </td>
+                                                       
+                                                        
+                                                        
+                                                        
+                                                     
+                                                    </tr>
+                    
+                                                </tbody>
+                    
+                                            </table>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            {% else %}
+                            <div class="m-4">
+                                <div class="jumbotron">
+                                    <div class="col-md-10 mx-auto">
+                                      <p class="d-flex justify-content-center"><b>No Information</b></p>
+                                    </div>
+                                </div> 
+                            </div>  
+                            {% endif %}
+
+                            <br>
+                            {% if general_ledger %}
+                    <div class='m-2'>
+                        <h5>Supply Reference In General Ledger </h5>
+                    <div id="example1_wrapper" class="dataTables_wrapper dt-bootstrap4">
+                        <div class="row">
+                            <div class="col-12 col-sm-12 col-md-12">
+                                
+                                <table  class="table table-striped  table-sm" role="grid"
+                                    aria-describedby="example2_info">
+                                    <thead>
+                                        <tr>
+                                            <th>ID</th>
+                                            <th>REF. No</th>
+                                            <th>Date</th>
+                                            <th>Sub Code</th>
+                                            <th>Description</th>
+                                            <th>DR   (GH&#8373)</th>
+                                            <th>CR   (GH&#8373)</th>
+                                        
+                                            <th>Created By</th>
+
+                                            
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        {% for item in general_ledger %}
+                                        <tr>
+                                            <td>{{item.id}}</td>
+                                            <td>{{item.transactionref}}</td>
+                                            <td>{{item.transaction_date}}</td>
+                                            <td>{{item.sub_code.sub_code }} -- {{item.sub_code.sub_description}} </td>
+                                            <td>{{item.description}}</td>
+                                            
+                                            <td>
+                                                {% if item.debit > 0 %}
+                                                GH&#8373 {{item.debit}} 
+                                                {% else %}
+
+                                                {% endif %}
+                                            
+                                            </td>
+                                            <td>
+                                                {% if item.cedit > 0 %}
+                                                GH&#8373 {{item.cedit}} 
+                                                {% else %}
+                                                    
+                                                {% endif %}
+                                                
+                                            </td>
+                                            
+                                            <td>{{item.created_by}} -- {{item.created_by.first_name}}</td>
+                                        
+
+                                        </tr>
+                                        {% endfor %}
+                                       
+                                    </tbody>
+        
+                                </table>
+                            </div>
+                            
+                        </div>
+                    </div>
+                    </div>
+                    {% else %}
+                    <div class="jumbotron">
+                        <div class="col-md-10 mx-auto">
+                        <p class="d-flex justify-content-center"><b>No Ledger Transaction</b></p>
+                        </div>
+                    </div>  
+                    {% endif %}
+
+                           
+                        </div>
+                   </div>           
+    
+        </div>
+    
+    </div>
+
+</div>
+{% endblock %}

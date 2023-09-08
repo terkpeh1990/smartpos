@@ -1,0 +1,132 @@
+{% extends "base.html" %}
+{% load static %}
+{% load crispy_forms_tags %}
+{% block head %}
+Damages
+
+{% endblock head %}
+
+{% block breadcrumb %}
+
+    <li class="breadcrumb-item"><a href="#">Home</a></li>
+    <li class="breadcrumb-item active">Damages</li>
+
+{% endblock breadcrumb %}
+{% block content%}
+
+<div class="col-12">
+   
+    <div class="card card-primary card-outline  m-4 p-4">
+        <div class="card-body">
+            {% comment %} <a class="btn btn-outline-dark btn-sm mb-1" href="#"></a> {% endcomment %}
+            <div calss = "row">
+                <form role="form" method="POST" enctype="multipart/form-data" novalidate>
+                    {% csrf_token %}
+                    <div class="card-body">
+                        <div class="row">
+                            <div class="form-group col-12 col-sm-12 col-md-3">
+                                {{ form.damage_date|as_crispy_field }}
+                            </div>
+                            <div class="form-group col-12 col-sm-12 col-md-3">
+                                {{ form.product|as_crispy_field }}
+                            </div>
+                            <div class="form-group col-12 col-sm-12 col-md-3">
+                                {{ form.quantity|as_crispy_field }}
+                            </div>
+                            <div class="form-group col-12 col-sm-12 col-md-3">
+                                {{ form.sub_code|as_crispy_field }}
+                            </div>
+                           
+                        </div>
+                        
+                        
+                        <div class="row">
+                            <div class="form-group col">
+                                <button type="submit" class="btn btn-outline-dark btn-sm">Proceed</button>
+                            </div>
+                            
+                            
+                        </div>
+                    </div> 
+                    
+                        
+                </form>
+            </div>
+            
+
+            {% if damages %}
+            <div id="example2_wrapper" class="dataTables_wrapper dt-bootstrap4">
+                <div class="row">
+                    <div class="col-12 col-sm-12 col-md-12">
+                        
+                        <table id="example2" class="table  table-hover" role="grid"
+                            aria-describedby="example2_info">
+                            <thead class="">
+                                <tr role="row">
+                                    <th class="sorting" tabindex="0" aria-controls="example2" rowspan="1" colspan="1"
+                                        aria-label="Browser: activate to sort column ascending">Id</th>
+                                    
+                                    <th class="sorting" tabindex="0" aria-controls="example2" rowspan="1" colspan="1"
+                                        aria-label="Browser: activate to sort column ascending">Date</th>
+
+                                    <th class="sorting" tabindex="0" aria-controls="example2" rowspan="1" colspan="1"
+                                        aria-label="Browser: activate to sort column ascending">Product</th>
+
+                                    <th class="sorting" tabindex="0" aria-controls="example2" rowspan="1" colspan="1"
+                                        aria-label="Browser: activate to sort column ascending">Quantity</th>
+
+                                    <th class="sorting" tabindex="0" aria-controls="example2" rowspan="1" colspan="1"
+                                        aria-label="Browser: activate to sort column ascending">Accounts Code</th>
+
+                                   
+                                    <th class="sorting" tabindex="0" aria-controls="example2" rowspan="1" colspan="1"
+                                        aria-label="CSS grade: activate to sort column ascending">Action</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                {% for a in damages %}
+                                </tr>
+                                <tr role="row" class="odd">
+                                    <td>{{ a.id }}</td>                          
+                                    <td>{{ a.damage_date}}</td>
+                                    <td>{{ a.product}}</td>
+                                    <td>{{ a.quantity}}</td>
+                                    <td>{{ a.sub_code}}</td>
+                                 
+                                
+                                    <td> 
+                                        <!-- <a class="btn btn-sm  btn-outline-warning" href="{% url 'production:edit_restock' a.id %}">Update</a> -->
+                                        
+                                        {% if a.status == 'pending' %}
+                                        <a class="btn btn-sm  btn-outline-primary" href="{% url 'production:comfirm_damages' a.id %}">Comfirm</a>
+                                        {% endif %}
+                                        
+                                        
+                                        
+                                    </td>
+                                </tr>
+
+                                {% endfor %}
+
+                            </tbody>
+
+                        </table>
+                    </div>
+                    
+                </div>
+            </div>
+            {% else %}
+            <div class="m-4">
+                <div class="jumbotron">
+                    <div class="col-md-10 mx-auto">
+                      <p class="d-flex justify-content-center"><b>No Orders</b></p>
+                    </div>
+                </div> 
+            </div>
+            
+            {% endif %}
+            
+        </div>
+    </div><!-- /.card -->
+</div>
+{% endblock %}

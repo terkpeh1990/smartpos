@@ -1,0 +1,170 @@
+{% extends "base.html" %}
+{% load static %}
+{% load crispy_forms_tags %}
+{% block head %}
+{{restocks.product }} Dialy Production History
+
+{% endblock head %}
+
+{% block breadcrumb %}
+
+    <li class="breadcrumb-item"><a href="#">Home</a></li>
+    <li class="breadcrumb-item"><a href="{% url 'production:add_stock'  restocks.restock.id %}">{{restocks.restock.restock_date}}'s Production</a></li>
+   
+    <li class="breadcrumb-item active">{{restocks.product }} Dialy Production History</li>
+
+{% endblock breadcrumb %}
+
+{% block content%}
+<div class="row">
+    <div class="col-md-3 col-sm-12">
+    
+        <!-- Profile Image -->
+        <div class="card card-dark card-outline">
+            <div class="card-body box-profile">
+                <div class="text-center mb-2">
+                    <img class="profile-user-img img-fluid img-circle" src="{% static 'dist/img/logo6.jpeg' %}"
+                        alt="User profile picture">
+                </div>
+               
+    
+                {% comment %} <h3 class="profile-username text-center">{{restocks.product }} Dialy Production History</h3> {% endcomment %}
+                <ul class="list-group list-group-unbordered mb-3">
+                    <li class="list-group-item">
+                        <b>Date</b> <a class="float-right">{{restocks.restock.restock_date}}</a>
+                    </li>
+                    <li class="list-group-item">
+                        <b>Product</b> <a class="float-right">{{restocks.product}}</a>
+                    </li>
+                    <li class="list-group-item">
+                        <b>Expected Production</b> <a class="float-right">{{restocks.expected_quantity}}</a>
+                    </li>
+                    <li class="list-group-item">
+                        <b>Quantity Produced</b> <a class="float-right">{{restocks.quantity_produced}}</a>
+                    </li>
+                    <li class="list-group-item">
+                        <b>Outstanding Production</b> <a class="float-right">{{restocks.outstanding}}</a>
+                    </li>
+                    <li class="list-group-item">
+                        <b>Staff</b> <a class="float-right">{{restocks.profile.name}}</a>
+                    </li>
+                   
+                </ul>
+            </div>
+            <!-- /.card-body -->
+        </div>
+        <!-- /.card -->
+    
+       
+       
+    </div>
+    <div class="col-md-9 col-sm-12 novalidate"> 
+        <div class="row">
+            <div class="col-lg">
+                <div class="card card-dark card-outline">
+                    <div class="card-header">
+                        <h3 class="card-title">Reason</h3>
+                    </div>
+                    <div class='card-body'>
+                        <div calss = "row">
+                            <form role="form" method="POST" enctype="multipart/form-data" novalidate>
+                                {% csrf_token %}
+                                <div class="card-body">
+                                    <div class="row">
+                                        <div class="form-group col-12 col-sm-12 col-md-12">
+                                            {{ form.reason|as_crispy_field }}
+                                        </div>
+                                    </div>
+                                    
+                                    
+                                    <div class="row">
+                                        <div class="form-group col">
+                                            <button type="submit" class="btn btn-outline-dark btn-sm">Save Reason</button>
+                                        </div>
+                                        
+                                        
+                                    </div>
+                                </div> 
+                                
+                                    
+                            </form>
+                        </div>   
+
+                    
+                    {% if history %}
+                    <div class="m-4">
+                        <div id="example2_wrapper" class="dataTables_wrapper dt-bootstrap4">
+                            <div class="row">
+                                <div class="col-sm-12">
+                                    <table id="example2" class="table   table-hover" role="grid"
+                                        aria-describedby="example2_info">
+                                        <thead class="">
+                                            <tr role="row">
+            
+                                                
+                                                <th class="sorting" tabindex="0" aria-controls="example2" rowspan="1" colspan="1"
+                                                    aria-label="Browser: activate to sort column ascending">Id</th>
+                                                
+                                                <th class="sorting" tabindex="0" aria-controls="example2" rowspan="1" colspan="1"
+                                                    aria-label="Browser: activate to sort column ascending">Date & Time</th>
+
+                                                <th class="sorting" tabindex="0" aria-controls="example2" rowspan="1" colspan="1"
+                                                    aria-label="Browser: activate to sort column ascending">Reason</th>
+
+                                                <th class="sorting" tabindex="0" aria-controls="example2" rowspan="1" colspan="1"
+                                                    aria-label="Browser: activate to sort column ascending">Action</th>
+                                                
+                                               
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                            {% for a in history  %}
+                                            </tr>
+                                            <tr role="row" class="odd">
+                                                
+                                                <td>
+                                                    
+                                                    {{a.id}}
+                                                </td>
+                                                <td>{{ a.created}}</td>
+                                                <td>{{ a.reason}}</td>
+                                                <td><a class="btn btn-sm  btn-outline-warning" href="{% url 'production:edit_item_production_history' a.id %}">Update</a></td>
+                                               
+                                            </tr>
+            
+                                            {% endfor %}
+            
+                                        </tbody>
+            
+                                    </table>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    {% else %}
+                    <div class="m-4">
+                        <div class="jumbotron">
+                            <div class="col-md-10 mx-auto">
+                              <p class="d-flex justify-content-center"><b>No Production History</b></p>
+                            </div>
+                        </div> 
+                    </div>
+                    </div>
+                    
+                        
+                    {% endif %}
+                        
+                    
+                    
+                    
+
+                    
+                </div>
+           </div>           
+
+</div> 
+
+    </div>
+
+</div>
+{% endblock %}
