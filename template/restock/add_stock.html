@@ -32,7 +32,7 @@
                                 <div class="card-body">
                                     <div class="row">
                                         
-                                        <div class="form-group  col-12 col-md-4">
+                                        <div class="form-group  col-12 col-md-3">
                                             <label for="">Staff</label>
                                             <input type="text" name='profile' value="{{daily_restock_details.profile}}" list="stafflist" Placeholder="Search for staff.." class="form-control" required >
                                             <datalist id="stafflist">
@@ -41,7 +41,7 @@
                                                 {% endfor %}
                                             </datalist>
                                         </div>
-                                        <div class="form-group  col-12 col-md-4">
+                                        <div class="form-group  col-12 col-md-3">
                                             <label for="">Product</label>
                                             <input type="text" name='product' value="{{daily_restock_details.product}}" list="productlist" Placeholder="Search for product.." class="form-control" required >
                                             <datalist id="productlist">
@@ -50,10 +50,14 @@
                                                 {% endfor %}
                                             </datalist>
                                         </div>
-                                        <div class="form-group col-12 col-sm-12 col-md-4">
+                                        <div class="form-group col-12 col-sm-12 col-md-3">
                                             <label for="">Quantity Produced (in bags) </label>
                                             {{ form.quantity_produced|as_crispy_field }}
                                         </div>
+                                        <div class="form-group  col-12 col-md-3">
+                                            {{form.requisition|as_crispy_field }}
+                                         </div>
+                                     
                                         
                                         
                                     </div>
@@ -83,7 +87,11 @@
                                 
                                         <div class="info-box-content">
                                             <span class="info-box-text">Shift Wages</span>
-                                            <span class="info-box-number"> GH&#8373 {{daily_restock.total_wages}} </span>
+                                            {% for group in  request.user.groups.all %}
+                                                {% if group.name == 'manager'  %}
+                                                    <span class="info-box-number"> GH&#8373 {{daily_restock.total_wages}} <a class="btn btn-sm  btn-outline-warning ml-4" href="{% url 'accounts:wages_pv' daily_restock.id %}">Generate Pv</a> </span>
+                                                {% endif %}
+                                            {% endfor %}
                                         </div>
                                         <!-- /.info-box-content -->
                                         </div>
@@ -117,6 +125,9 @@
                                                             aria-label="Browser: activate to sort column ascending">Quantity Producted</th>
 
                                                         <th class="sorting" tabindex="0" aria-controls="example2" rowspan="1" colspan="1"
+                                                            aria-label="Browser: activate to sort column ascending">Raw Material Requisition</th>
+
+                                                        <th class="sorting" tabindex="0" aria-controls="example2" rowspan="1" colspan="1"
                                                             aria-label="Browser: activate to sort column ascending">Wages For Quantity Produced</th>
 
                                                         <!-- <th class="sorting" tabindex="0" aria-controls="example2" rowspan="1" colspan="1"
@@ -137,6 +148,7 @@
                                                         <td>{{ a.product}}</td>
                                                         <td>{{ a.profile.name}}</td>
                                                         <td>{{ a.quantity_produced}} bags</td>
+                                                        <td>{{ a.requisition}}</td>
                                                         <td>GHC {{  a.wages}}</td>
                                                         <!-- <td>
                                                             
@@ -168,7 +180,12 @@
                                     </div>
                                 </div> 
                             </div>  
+
                             {% endif %}
+                            <div class="m-4">
+                                <a class="btn btn-sm  btn-outline-primary" href="{% url 'production:manage_restock'  %}">Close</a>
+                            </div> 
+                            
 
                            
                         </div>

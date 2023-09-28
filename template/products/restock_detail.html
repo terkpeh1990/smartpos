@@ -1,0 +1,146 @@
+{% extends "base.html" %}
+{% load crispy_forms_tags %}
+{% block content%}
+<div class="row">
+    <div class="col-4">
+        <div class="card  card-dark card-outline p-4 m-4">
+           
+                <h3 class="profile-username text-center text-muted">Smart PRODUCTION</h3>
+                <ul class="list-group list-group-unbordered mb-3">
+                    <li class="list-group-item">
+                        <b>ID.</b> <a class="float-right text-muted">{{restock.id}}</a>
+                    </li>
+                    <li class="list-group-item">
+                        <b>Restock Date.</b> <a class="float-right text-muted">{{restock.restock_date}}</a>
+                    </li>
+                    <li class="list-group-item">
+                        <b>Status</b> <a class="float-right text-muted">
+                            {% if restock.status == 'Pending' %}
+                                <span class="badge bg-info">{{restock.status}}</span>
+                            {% elif restock.status == 'Approved'  %}
+                                <span class="badge bg-success">{{restock.status}}</span>
+                            {% else %}
+                                <span class="badge bg-danger">{{restock.status}}</span>     
+                            {% endif %} 
+
+                    </li>
+                    
+                    {% if restock.status == 'Pending' %}
+                    <a href="{% url 'products:approve_restock' restock.id %}" class="btn btn-primary mb-2">Approve</a>
+                    <a href="{% url 'products:cancel_restock' restock.id %}" class="btn btn-danger mb-2">Cancel</a>
+                        
+                    {% endif %}
+                    {% if  restock.status == 'Cancelled'  %}
+                        <a href="{% url 'products:reverse_restock' restock.id %}" class="btn btn-warning mb-2">Reverse</a>
+                    {% endif %}
+                        
+                    <a class="btn btn-sm btn-outline-dark mt-2 ml-2" href="{% url 'products:manage_restock'  %}">Close
+                    </a>
+
+
+                    
+                </ul>
+            
+            
+        </div>
+    </div>
+    <div class="col-8">
+        <div class="card  card-dark card-outline p-4 m-4">
+           
+            <div class="card-body">
+                {% if restock.status == 'Pending' %}
+                    <form id="friend-form" method="post" novalidate>
+                        {% csrf_token %}
+                        
+                            <div class="card-body">
+                                <div class="form-group ">
+                                
+                                    
+        
+                                    <div class="row">
+                                        <div class="form-group col-12 col-md-6">
+                                            
+                                            {{ form.material_id|as_crispy_field }}
+                                        </div>
+                                        <div class="form-group col-12 col-md-6">
+                                            
+                                            {{ form.quantity|as_crispy_field }}
+                                        </div>
+                                        
+                                        
+                                    </div>
+        
+                                    <div class="form-row">
+                                        <div class="col text-center">
+                                            <button class="btn  btn-sm btn-outline-dark" value="Create Friend">Add Item</button>
+                                        </div>
+        
+                                    </div>
+        
+                                </div>
+                            </div>
+                        
+                    </form>
+                {% endif %}
+                <table class="table table-striped table-sm" id="my_friends">
+                    <thead>
+                        <tr>
+                            <th>ID</th>
+                            <th>Raw Material</th>
+                            <th>Quantity</th>
+                            <th>Action</th> 
+
+
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {% for item in detail %}
+                        <tr>
+                            <td>{{item.id}}</td>
+                            <td>{{item.material_id}}</td>
+                            <td>{{item.quantity}}</td>
+                            
+                            <td>
+                                {% if restock.status == 'Pending' %}          
+                                    <a  class = "text-danger far fa-trash-alt fa-lg ml-2" href="{% url 'products:delete_restock_item' item.id %}"></a>
+                                {% endif %}
+                            </td>
+                            
+                           
+                        </tr>
+                        {% endfor %}
+                        <tr>
+                            <td></td>
+                            <td></td>
+                            
+                        </tr>
+
+                        <tr>
+
+                            <td><b>Total</b></td>
+    
+                            <td> {{total}} Kg</td>
+                            
+                            <td>{{tqt}}</td>
+
+                        </tr>
+                        
+                        
+
+                    </tbody>
+                </table>
+                
+                   
+               
+                
+                
+
+            </div>
+            
+        </div>
+    </div>
+    
+
+</div> 
+
+{% endblock %}

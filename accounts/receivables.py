@@ -14,7 +14,7 @@ from django.contrib import messages
 
 
 def manage_receivables(request):
-    payables = Account_Receivables.objects.filter(amount__gt=0.00)
+    payables = Revenue.objects.filter(amount__gt=0.00)
     total_payables = payables.count()
     payable_value = payables.aggregate(cc=Sum('amount'))
 

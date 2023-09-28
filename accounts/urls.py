@@ -53,6 +53,7 @@ urlpatterns = [
 
     path('statement_of_accounts/<str:pk>/',reports.statement_of_accounts,name='statement_of_accounts'),
     path('dashboard',dashboard.dashboard,name='dashboard'),
+    path('production/wages_pv/<str:pk>/',pv.wages_pv,name='wages_pv')
 
 
   

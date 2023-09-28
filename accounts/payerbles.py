@@ -9,7 +9,7 @@ import datetime
 
 
 def manage_payables(request):
-    payables = Account_Payables.objects.filter(amount__gt=0.00)
+    payables = Expenditure.objects.filter(amount__gt=0.00)
     total_payables = payables.count()
     payable_value = payables.aggregate(cc=Sum('amount'))
 

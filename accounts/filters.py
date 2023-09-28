@@ -28,7 +28,7 @@ class ReceivableFilter(django_filters.FilterSet):
                           )
 
     class Meta:
-        model = Account_Receivables
+        model = Revenue
         fields = ['start_date','end_date']
 
 
@@ -52,8 +52,8 @@ class PayablesFilter(django_filters.FilterSet):
 
                           )
     class Meta:
-        model = Account_Payables
-        fields = ['start_date','end_date', 'sub_code','reference__id',]
+        model = Expenditure
+        fields = ['start_date','end_date', 'sub_code','transactionref',]
 
 
 

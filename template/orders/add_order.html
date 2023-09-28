@@ -38,7 +38,7 @@
                                         <div class="form-group  col-12 col-md-6">
                                            {{form.quantity|as_crispy_field }}
                                         </div>
-                                     
+                                        
                                     </div>
                                     
                                     
@@ -78,6 +78,7 @@
                                                         
                                                         <th class="sorting" tabindex="0" aria-controls="example2" rowspan="1" colspan="1"
                                                             aria-label="Browser: activate to sort column ascending">Quantity</th>
+                                                            
 
                                                         <th class="sorting" tabindex="0" aria-controls="example2" rowspan="1" colspan="1"
                                                             aria-label="Browser: activate to sort column ascending">Amount</th>
@@ -144,6 +145,9 @@
                                 </div> 
                             </div>  
                             {% endif %}
+                            <div class="m-4">
+                                <a class="btn  btn-outline-primary" href="{% url 'orders:order_summery' order.id %}">Done</a>
+                            </div>
 
                            
                         </div>

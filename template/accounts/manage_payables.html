@@ -12,7 +12,7 @@
                     <span class="info-box-icon bg-default elevation-1"><i class="ion ion-stats-bars"></i></span>
             
                     <div class="info-box-content">
-                        <span class="info-box-text mb-2"style="font-size: 18px">Total Payables</span>
+                        <span class="info-box-text mb-2"style="font-size: 18px">Total Expenditure</span>
                         <span class="info-box-number"style="font-size: 25px">{{total_payables}}</span>
     
                     </div>
@@ -26,7 +26,7 @@
                     <span class="info-box-icon bg-default elevation-1"><i class="fas fa-chart-pie"></i></span>
             
                     <div class="info-box-content">
-                        <span class="info-box-text mb-2"style="font-size: 18px">Payables Value</span>
+                        <span class="info-box-text mb-2"style="font-size: 18px">Expenditure Value</span>
                         <span class="info-box-number"style="font-size: 25px">GH&#8373 {{ payable_value.cc}}</span>
                     </div>
                     <!-- /.info-box-content -->
@@ -53,7 +53,7 @@
                             {{ myFilter.form.end_date|as_crispy_field }}
                         </div>
                         <div class="form-group col-12 col-sm-12 col-md-4">
-                            {{ myFilter.form.reference__id|as_crispy_field }}
+                            {{ myFilter.form.transactionref|as_crispy_field }}
                         </div>
                         <div class="form-group col-12 col-sm-12 col-md-4">
                             {{ myFilter.form.sub_code|as_crispy_field }}
@@ -89,9 +89,8 @@
                                         <th class="sorting" tabindex="0" aria-controls="example2" rowspan="1" colspan="1"
                                             aria-label="Browser: activate to sort column ascending">Amount</th>
                                         <th class="sorting" tabindex="0" aria-controls="example2" rowspan="1" colspan="1"
-                                            aria-label="Browser: activate to sort column ascending">Pv No.</th>
-                                        <th class="sorting" tabindex="0" aria-controls="example2" rowspan="1" colspan="1"
-                                            aria-label="CSS grade: activate to sort column ascending">Action</th>
+                                            aria-label="Browser: activate to sort column ascending">Pv Reference.</th>
+                                        
                                     </tr>
                                 </thead>
                                 <tbody>
@@ -103,12 +102,9 @@
                                         <td>{{a.sub_code.sub_code }} -- {{a.sub_code.sub_description}}</td>
                                         <td>{{a.description }}</td>
                                         <td>GH&#8373 {{a.amount }}</td>
-                                        <td>{{a.reference.id }}</td>
+                                        <td>{{a.transactionref }}</td>
                                      
-                                        <td>
-                                            <a class="btn btn-sm btn-outline-primary"
-                                                href="{% url 'accounts:make_payment' a.id %}">Payments</a>
-                                        </td>
+                                        
                                     </tr>
     
                                     {% endfor %}

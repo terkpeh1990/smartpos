@@ -12,7 +12,7 @@
                     <span class="info-box-icon bg-default elevation-1"><i class="ion ion-stats-bars"></i></span>
             
                     <div class="info-box-content">
-                        <span class="info-box-text mb-2"style="font-size: 18px">Total Receivables</span>
+                        <span class="info-box-text mb-2"style="font-size: 18px">Total Revenue</span>
                         <span class="info-box-number"style="font-size: 25px">{{total_payables}}</span>
     
                     </div>
@@ -26,7 +26,7 @@
                     <span class="info-box-icon bg-default elevation-1"><i class="fas fa-chart-pie"></i></span>
             
                     <div class="info-box-content">
-                        <span class="info-box-text mb-2"style="font-size: 18px">Receivables Value</span>
+                        <span class="info-box-text mb-2"style="font-size: 18px">Revenue Value</span>
                         <span class="info-box-number"style="font-size: 25px">GH&#8373 {{ payable_value.cc}}</span>
                     </div>
                     <!-- /.info-box-content -->
@@ -87,8 +87,8 @@
                                             aria-label="Browser: activate to sort column ascending">Ref.</th>
                                        
 
-                                        <th class="sorting" tabindex="0" aria-controls="example2" rowspan="1" colspan="1"
-                                            aria-label="Browser: activate to sort column ascending">Action.</th>
+                                        <!-- <th class="sorting" tabindex="0" aria-controls="example2" rowspan="1" colspan="1"
+                                            aria-label="Browser: activate to sort column ascending">Action.</th> -->
                                        
                                     </tr>
                                 </thead>
@@ -103,17 +103,17 @@
                                         <td>{{a.amount }}</td>
                                         <td>
                                 
-                                                {{a.reference.id }}
+                                                {{a.transactionref }}
                                         
                                         </td>
                                 
-                                        <td>
+                                        <!-- <td>
                                            
                                             <a class="btn btn-sm btn-outline-primary"
                                                  href="{% url 'accounts:receive_payment' a.id %}">Payments</a>
                                           
                                             
-                                        </td>
+                                        </td> -->
                                     </tr>
     
                                     {% endfor %}

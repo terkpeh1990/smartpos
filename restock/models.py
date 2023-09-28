@@ -3,6 +3,7 @@ from product.models import Products
 from auth_accounts.models import Profile
 from simple_history.models import HistoricalRecords
 from accounts.models import Sub_Accounts
+from product.models import Requisition
 
 # Create your models here.
 
@@ -27,6 +28,7 @@ class Restock_details(models.Model):
     product = models.ForeignKey(Products, on_delete=models.CASCADE)
     profile = models.ForeignKey(Profile, on_delete=models.CASCADE)
     quantity_produced =  models.IntegerField(default=1)
+    requisition = models.ForeignKey(Requisition,on_delete=models.CASCADE,null=True,blank=True)
     expected_quantity =  models.IntegerField(default=20)
     outstanding =  models.IntegerField(default=20)
     wages = models.DecimalField(max_digits=10, decimal_places=2, default=0.00)

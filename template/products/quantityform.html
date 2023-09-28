@@ -1,0 +1,55 @@
+{% extends "base.html" %}
+{% load static %}
+{% load crispy_forms_tags %}
+{% block head %}
+Quantity
+
+{% endblock head %}
+
+{% block breadcrumb %}
+
+    <li class="breadcrumb-item"><a href="#">Home</a></li>
+    <li class="breadcrumb-item active">Quantity</li>
+
+{% endblock breadcrumb %}
+{% block content%}
+
+<div class="col-12">
+   
+    <div class="card card-primary card-outline  m-4 p-4">
+        <div class="card-body">
+            {% comment %} <a class="btn btn-outline-dark btn-sm mb-1" href="#"></a> {% endcomment %}
+            <div calss = "row">
+                <form role="form" method="POST" enctype="multipart/form-data" novalidate>
+                    {% csrf_token %}
+                    <div class="card-body">
+                        <div class="row">
+                            <div class="form-group col-12 col-sm-12 col-md-12">
+                                {{ form.quantity_approved|as_crispy_field }}
+                            </div>
+                            
+                            
+                        </div>
+                        
+                        
+                        
+                        <div class="row">
+                            <div class="form-group col">
+                                <button type="submit" class="btn btn-outline-dark btn-sm">Save</button>
+                            </div>
+                            
+                            
+                        </div>
+                    </div> 
+                    
+                        
+                </form>
+            </div>
+            
+
+          
+            
+        </div>
+    </div><!-- /.card -->
+</div>
+{% endblock %}

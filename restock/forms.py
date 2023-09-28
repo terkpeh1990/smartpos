@@ -11,12 +11,15 @@ class RestockForm(forms.ModelForm):
     
     class Meta:
         model = models.Restock
-        fields = '__all__'
+        fields = ('restock_date','shift')
 
+ 
 
 class RestockDetailForm(forms.ModelForm):
     
     quantity_produced = forms.IntegerField(label=False)
+    requisition = forms.ModelChoiceField(
+         queryset=models.Requisition.objects.filter(status = 'Issued').order_by('-id'),label='Select Approved Raw Material')
 
     def clean(self, *args, **kwargs):
         quantity_produced = self.cleaned_data.get('quantity_produced')
@@ -29,7 +32,7 @@ class RestockDetailForm(forms.ModelForm):
 
     class Meta:
         model = models.Restock_details
-        fields = ('quantity_produced',)
+        fields = ('quantity_produced','requisition')
 
 
 class DamageForm(forms.ModelForm):

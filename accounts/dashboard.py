@@ -13,6 +13,13 @@ def dashboard(request):
     today =datetime.date.today()
    
     all_orders = Orders.objects.all()
+    payables = Expenditure.objects.filter(amount__gt=0.00)
+    total_payables = payables.count()
+    payable_value = payables.aggregate(cc=Sum('amount'))
+
+    rec = Revenue.objects.filter(amount__gt=0.00)
+    total_rec  = rec.count()
+    rec_value = rec.aggregate(cc=Sum('amount'))
     
     sub_account = Sub_Accounts.objects.filter(code__tag='Cash-Eq')
     cash_eq = sub_account.values('sub_description').annotate(total=Sum('all_transaction__amount')).values('sub_description','sub_code','total').exclude(total__lte=0)
@@ -38,6 +45,10 @@ def dashboard(request):
         'monthly_transaction_in_year':monthly_transaction_in_year,
         'open_balace':open_balace,
         'accounting_year':accounting_year,
+        'payables':payables,
+        'payable_value':payable_value,
+        'rec_value':rec_value,
+        'rec':rec
     }
 
     return render(request,template,context)

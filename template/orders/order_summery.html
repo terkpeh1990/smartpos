@@ -29,6 +29,8 @@
                                               <span class="badge badge-pill badge-danger">{{ order.status }}</span>
                                             {% elif order.status == "approved" %}
                                              <span class="badge badge-pill badge-warning">{{ order.status }}</span>
+                                            {% elif order.status == "posted" %}
+                                             <span class="badge badge-pill badge-success">{{ order.status }}</span>
                                            {% else %}
                                               <span class="badge badge-pill badge-primary">{{ order.status }}</span>
                                            {% endif %} 
@@ -40,8 +42,12 @@
                                             <a class="btn  btn-outline-primary" href="{% url 'orders:approve_order' order.id %}">Approve Supply</a>
                                         {% elif order.status == "approved" %}
                                              <a class="btn  btn-outline-primary" href="{% url 'orders:comfirm_order' order.id %}">Comfirm Supply</a>
+                                        {% elif order.status == "comfirmed" and order.sales_posted > 0 %}
+                                             <a class="btn  btn-outline-sucess" href="{% url 'orders:close_shitf_sales' order.id %}">Close Shift Sales</a>
+                                        {% elif order.status == "comfirmed"  %}
+                                             <a class="btn  btn-outline-primary" href="{% url 'orders:add_sales_amount' order.id %}">Enter Distribution Sales</a>
                                         {% else %}
-                                            
+                                        
                                             
                                         {% endif %}
                                             
@@ -75,10 +81,21 @@
                                                             aria-label="Browser: activate to sort column ascending">Unit Price</th>
                                                         
                                                         <th class="sorting" tabindex="0" aria-controls="example2" rowspan="1" colspan="1"
-                                                            aria-label="Browser: activate to sort column ascending">Quantity</th>
+                                                            aria-label="Browser: activate to sort column ascending">Quantity Supplied</th>
+                                                        
+                                                        <th class="sorting" tabindex="0" aria-controls="example2" rowspan="1" colspan="1"
+                                                            aria-label="Browser: activate to sort column ascending">Quantity Retured</th>
+
+                                                        <th class="sorting" tabindex="0" aria-controls="example2" rowspan="1" colspan="1"
+                                                            aria-label="Browser: activate to sort column ascending">Quantity Accounted For</th>
 
                                                         <th class="sorting" tabindex="0" aria-controls="example2" rowspan="1" colspan="1"
                                                             aria-label="Browser: activate to sort column ascending">Amount</th>
+
+                                                        {% if order.status == "comfirmed"  %}
+                                                            <th class="sorting" tabindex="0" aria-controls="example2" rowspan="1" colspan="1"
+                                                                aria-label="Browser: activate to sort column ascending">Amount</th>
+                                                        {% endif %}
 
                                                        
 
@@ -97,7 +114,14 @@
                                                         </td>
                                                         <td>{{ a.unit_price}}</td>
                                                         <td>{{ a.quantity}} bags</td>
+                                                        <td>{{ a.quantity_returned}} bags</td>
+                                                        <td>{{ a.atual_quantity}} bags</td>
                                                         <td>{{ a.gross_price}}</td>
+                                                        {% if order.status == "comfirmed"  %}
+                                                            <td>
+                                                                <a class="btn  btn-outline-warning" href="{% url 'orders:add_return_saless' a.id %}">Sales Return</a>
+                                                            </td>
+                                                        {% endif %}
                                                         
                                                        
                                                         
@@ -108,6 +132,8 @@
                                                     <tr role="row" class="odd">
                                                        
                                                         
+                                                        <td></td>
+                                                        <td></td>
                                                         <td></td>
                                                         <td></td>
                                                         <td> <b>Total</b> </td>
@@ -141,7 +167,7 @@
                             <br>
                             {% if general_ledger %}
                     <div class='m-2'>
-                        <h5>Supply Reference In General Ledger </h5>
+                        <h5>Supply Reference In Revenue </h5>
                     <div id="example1_wrapper" class="dataTables_wrapper dt-bootstrap4">
                         <div class="row">
                             <div class="col-12 col-sm-12 col-md-12">
@@ -155,9 +181,8 @@
                                             <th>Date</th>
                                             <th>Sub Code</th>
                                             <th>Description</th>
-                                            <th>DR   (GH&#8373)</th>
-                                            <th>CR   (GH&#8373)</th>
-                                        
+                                            <th>Amount   (GH&#8373)</th>
+                                            
                                             <th>Created By</th>
 
                                             
@@ -173,21 +198,12 @@
                                             <td>{{item.description}}</td>
                                             
                                             <td>
-                                                {% if item.debit > 0 %}
-                                                GH&#8373 {{item.debit}} 
-                                                {% else %}
-
-                                                {% endif %}
+                                                
+                                                GH&#8373 {{item.amount}} 
+                                                
                                             
                                             </td>
-                                            <td>
-                                                {% if item.cedit > 0 %}
-                                                GH&#8373 {{item.cedit}} 
-                                                {% else %}
-                                                    
-                                                {% endif %}
-                                                
-                                            </td>
+                                            
                                             
                                             <td>{{item.created_by}} -- {{item.created_by.first_name}}</td>
                                         
@@ -202,11 +218,12 @@
                             
                         </div>
                     </div>
+                        <a  class="btn  btn-outline-primary ml-4" href="{% url 'orders:manage_orders'  %}">Close</a>
                     </div>
                     {% else %}
                     <div class="jumbotron">
                         <div class="col-md-10 mx-auto">
-                        <p class="d-flex justify-content-center"><b>No Ledger Transaction</b></p>
+                        <p class="d-flex justify-content-center"><b>No Revenue</b></p>
                         </div>
                     </div>  
                     {% endif %}

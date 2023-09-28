@@ -99,13 +99,13 @@
                             <p>Orders</p>
                           </a>
                         </li>
-                        <li class="nav-item">
+                        <!-- <li class="nav-item">
                           {% url 'orders:manage_returns' as manage_returns %}
                           <a href="{{ manage_returns }}" class="nav-link {% if request.path == manage_returns %} active {% endif %}">
                             <i class="fas fa-users nav-icon "></i>
                             <p>Return Orders</p>
                           </a>
-                        </li>
+                        </li> -->
                         <li class="nav-item">
                           {% url 'production:manage_damages' as manage_damages %}
                           <a href="{{ manage_damages }}" class="nav-link {% if request.path == manage_damages %} active {% endif %}">
@@ -147,6 +147,7 @@
                   {% url 'products:manage_product' as manage_product %}
                   {% url 'products:edit_category' a.id as edit_category %}
                   {% url 'products:edit_product' a.id as edit_product %}
+                 
             
                   <li class="nav-item 
                   {% if request.path == manage_category %} menu-open {% endif %}
@@ -154,13 +155,14 @@
                   {% if request.path == manage_product %} menu-open {% endif %}
                   {% if request.path == edit_product %} menu-open {% endif %}
                   {% if request.path == edit_category %} menu-open {% endif %}
+                  {% if request.path == manage_raw %} menu-open {% endif %}
                 
                     ">
                   
                     <a href="#" class="nav-link">
                       <i class="nav-icon fas fa-anchor"></i>
                       <p>
-                        Products / Category
+                        Products / Category/ RM
                         <i class="right fas fa-angle-left"></i>
                       </p>
                     </a>
@@ -178,6 +180,7 @@
                           <p>Category</p>
                         </a>
                       </li>
+                      
                       <li class="nav-item">
                         {% url 'products:manage_product' as manage_product %}
                         {% url 'products:edit_product' a.id as edit_product %}
@@ -189,8 +192,101 @@
                           <p>Product</p>
                         </a>
                       </li>
-                      
+                      <!-- <li class="nav-item">
+                        {% url 'products:manage_raw' as manage_raw %}
+                        {% url 'products:edit_rawmaterial' a.id as edit_rawmaterial %}
+                        
+                        <a href="{{ manage_raw }}" class="nav-link {% if request.path == manage_raw %} active {% endif %} 
+                        {% if request.path == edit_rawmaterial %} active {% endif %} 
+                        ">
+                          <i class="fas fa-users nav-icon "></i>
+                          <p>Raw Materials</p>
+                        </a>
+                      </li>
+                       -->
                     
+                    </ul>
+                  </li>
+
+                  {% url 'products:manage_raw' as manage_raw %}
+                  {% url 'products:edit_product' a.id as edit_product %}
+                  {% url 'products:manage_restock' as manage_restock %}
+                  {% url 'products:inventory' as inventory %}
+                  {% url 'products:requisition' as requisition %}
+                  
+                  
+                  
+                  <li class="nav-item 
+                  {% if request.path == manage_raw %} menu-open {% endif %}
+                  {% if request.path == edit_rawmaterial %} menu-open {% endif %}
+                  {% if request.path == manage_restock %} menu-open {% endif %}
+                  {% if request.path == inventory %} menu-open {% endif %}
+                  {% if request.path == requisition %} menu-open {% endif %}
+                  
+                  
+                
+                    ">
+                  
+                    <a href="#" class="nav-link">
+                      <i class="nav-icon fas fa-anchor"></i>
+                      <p>
+                        Raw Materials
+                        <i class="right fas fa-angle-left"></i>
+                      </p>
+                    </a>
+                    <ul class="nav nav-treeview">
+                      
+                      <li class="nav-item">
+                        {% url 'products:manage_raw' as manage_raw %}
+                        {% url 'products:edit_rawmaterial' a.id as edit_rawmaterial %}
+                        {% url 'products:manage_restock' as manage_restock %}
+                        {% url 'products:inventory' as inventory %}
+                        {% url 'products:requisition' as requisition %}
+                      
+                        <a href="{{ manage_raw }}" class="nav-link {% if request.path == manage_raw %} active {% endif %} 
+                        {% if request.path == manage_raw  %} active {% endif %}
+                        {% if request.path == edit_rawmaterial %} active {% endif %}
+                        {% if request.path == manage_restock %} active {% endif %}
+                        {% if request.path == inventory %} active {% endif %}
+                        {% if request.path == requisition %} active {% endif %}
+                        ">
+                          <i class="fas fa-users nav-icon "></i>
+                          <p>Raw Materials</p>
+                        </a>
+                      </li>    
+                      <li class="nav-item">
+                        
+                        {% url 'products:manage_restock' as manage_restock %}
+                      
+                        <a href="{{ manage_restock }}" class="nav-link {% if request.path == manage_restock%} active {% endif %} 
+                        
+                        ">
+                          <i class="fas fa-users nav-icon "></i>
+                          <p>Restock</p>
+                        </a>
+                      </li>  
+                      <li class="nav-item">
+                        
+                        {% url 'products:inventory' as inventory %}
+                      
+                        <a href="{{ inventory }}" class="nav-link {% if request.path == inventory %} active {% endif %} 
+                        
+                        ">
+                          <i class="fas fa-users nav-icon "></i>
+                          <p>Inventory</p>
+                        </a>
+                      </li>    
+                      <li class="nav-item">
+                        
+                        {% url 'products:requisition' as requisition %}
+                      
+                        <a href="{{ requisition }}" class="nav-link {% if request.path == requisition %} active {% endif %} 
+                        
+                        ">
+                          <i class="fas fa-users nav-icon "></i>
+                          <p>Requisition</p>
+                        </a>
+                      </li>  
                     </ul>
                   </li>
 
@@ -276,13 +372,13 @@
                           <p>Orders</p>
                         </a>
                       </li>
-                      <li class="nav-item">
+                      <!-- <li class="nav-item">
                         {% url 'orders:manage_returns' as manage_returns %}
                         <a href="{{ manage_returns }}" class="nav-link {% if request.path == manage_returns %} active {% endif %}">
                           <i class="fas fa-users nav-icon "></i>
                           <p>Return Orders</p>
                         </a>
-                      </li>
+                      </li> -->
                       <li class="nav-item">
                         {% url 'production:manage_damages' as manage_damages %}
                         <a href="{{ manage_damages }}" class="nav-link {% if request.path == manage_damages %} active {% endif %}">
@@ -335,13 +431,13 @@
                           <p>Accounts</p>
                         </a>
                       </li>
-                      <li class="nav-item">
+                      <!-- <li class="nav-item">
                         {% url 'accounts:general_ledger' as general_ledger %}
                         <a href="{{ general_ledger }}" class="nav-link {% if request.path == general_ledger %} active {% endif %}">
                           <i class="fas fa-users nav-icon "></i>
                           <p>General Ledger</p>
                         </a>
-                      </li>
+                      </li> -->
                       <li class="nav-item">
                         {% url 'accounts:manage_pv' as manage_pv %}
                         <a href="{{ manage_pv }}" class="nav-link {% if request.path == manage_pv %} active {% endif %}">
@@ -353,7 +449,7 @@
                         {% url 'accounts:manage_payables' as manage_payables %}
                         <a href="{{ manage_payables }}" class="nav-link {% if request.path == manage_payables %} active {% endif %}">
                           <i class="fas fa-users nav-icon"></i>
-                          <p>Payerbles</p>
+                          <p>Expenditure</p>
                         </a>
                       </li>
                       
@@ -361,16 +457,16 @@
                         {% url 'accounts:manage_receivables' as manage_receivables %}
                         <a href="{{ manage_receivables }}" class="nav-link {% if request.path == manage_receivables %} active {% endif %}">
                           <i class="fas fa-users nav-icon "></i>
-                          <p>Receivables</p>
+                          <p>Revenue</p>
                         </a>
                       </li>
-                      <li class="nav-item">
+                      <!-- <li class="nav-item">
                         {% url 'accounts:manage_transfer' as manage_transfer %}
                         <a href="{{ manage_transfer }}" class="nav-link {% if request.path == manage_transfer %} active {% endif %}">
                           <i class="fas fa-users nav-icon "></i>
                           <p>Transfers</p>
                         </a>
-                      </li>
+                      </li> -->
                       
                     
                     </ul>

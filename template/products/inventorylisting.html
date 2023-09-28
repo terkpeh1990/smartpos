@@ -1,0 +1,85 @@
+{% extends "base.html" %}
+{% load crispy_forms_tags %}
+{% block content%}
+<div class="row">
+    <div class="col-4">
+        <div class="card  card-dark card-outline p-4 m-4">
+           
+                <h3 class="profile-username text-center text-muted">Smart PRODUCTION</h3>
+                <ul class="list-group list-group-unbordered mb-3">
+                    <li class="list-group-item">
+                        <b>ID.</b> <a class="float-right text-muted">{{inventory.id}}</a>
+                    </li>
+                    <li class="list-group-item">
+                        <b>Raw Material.</b> <a class="float-right text-muted">{{inventory.material_id.name}}</a>
+                    </li>
+                    <li class="list-group-item">
+                        <b>Avialable Quantity.</b> <a class="float-right text-muted">{{inventory.avialable_quantity}}</a>
+                    </li>
+                    
+                    
+                    
+                        
+                    <a class="btn btn-sm btn-outline-dark mt-2 ml-2" href="{% url 'products:add_requisition_detail' requisition.id %}">Close
+                    </a>
+
+
+                    
+                </ul>
+            
+            
+        </div>
+    </div>
+    <div class="col-8">
+        <div class="card  card-dark card-outline p-4 m-4">
+           
+            <div class="card-body">
+                
+                
+                <table class="table table-striped table-sm" id="my_friends">
+                    <thead>
+                        <tr>
+                            <th>ID</th>
+                            <th>Date</th>
+                            <th>Intake</th>
+                            <th>Requested</th>
+                            <th>Available Stock</th>
+                            <th>Action</th>
+                            
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {% for item in inventory_detail %}
+                        <tr>
+                            <td>{{item.id}}</td>
+                            <td>{{item.expiring_date}}</td>
+                            <td>{{item.quantity_intake}}</td>
+                            <td>{{item.quantity_requested}}</td>
+                            <td>{{item.avialable_quantity}}</td>
+                            <td>
+                                 
+                        
+                            <a href="{% url 'products:issue_quantity' details.id item.batch_number %}" class="btn btn-primary ">Issue</a>
+     
+                                
+                            </td>
+                        </tr>
+                        {% endfor %}
+                       
+                    </tbody>
+                </table>
+                
+                   
+               
+                
+                
+
+            </div>
+            
+        </div>
+    </div>
+    
+
+</div> 
+
+{% endblock %}

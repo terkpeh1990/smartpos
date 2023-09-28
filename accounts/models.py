@@ -159,6 +159,7 @@ class Payment_Vouchers(models.Model):
     description = models.CharField(max_length=250)
     amount = models.DecimalField(max_digits=10, decimal_places=2, default=0.00)
     status = models.CharField(max_length=10, choices= sts)
+    ref = models.CharField(max_length=100,null=True,blank=True)
     created_date = models.DateField(auto_now_add=True)
     transaction_date = models.DateField(blank=True, null=True)
 
@@ -314,3 +315,56 @@ class Transfers(models.Model):
         super(Transfers, self).save(*args, **kwargs)
     
 
+class Expenditure(models.Model):
+    account_period = models.ForeignKey(Accumulated_fund, on_delete= models.CASCADE,blank=True, null=True)
+    transactionref  = models.CharField(max_length=300, blank=True, null=True)
+    transaction_date = models.DateField()
+    sub_code = models.ForeignKey(Sub_Accounts, on_delete=models.CASCADE)
+    description = models.CharField(max_length=300)
+    amount = models.DecimalField(max_digits=10, decimal_places=2, default=0.00)
+    created = models.DateTimeField(auto_now_add=True)
+    created_by = models.ForeignKey('auth.User', related_name='expcreatedby', on_delete=models.SET_NULL, blank=True, null=True,default=None)
+    modified = models.DateTimeField(auto_now=True)
+    modified_by = models.ForeignKey('auth.User', on_delete=models.SET_NULL, related_name='expmodifiedby', blank=True, null=True,default=None)
+
+    history = HistoricalRecords()
+
+    def __str__(self):
+        return self.sub_code.sub_code + " "+ self.description
+
+
+    def save(self, *args, **kwargs):
+        user = get_current_user()
+        if user and not user.pk:
+            user = None
+        if not self.pk:
+            self.created_by = user
+        self.modified_by = user
+        super(Expenditure, self).save(*args, **kwargs)
+
+
+class Revenue(models.Model):
+    account_period = models.ForeignKey(Accumulated_fund, on_delete= models.CASCADE,blank=True, null=True)
+    transactionref  = models.CharField(max_length=300, blank=True, null=True)
+    transaction_date = models.DateField()
+    sub_code = models.ForeignKey(Sub_Accounts, on_delete=models.CASCADE)
+    description = models.CharField(max_length=300)
+    amount = models.DecimalField(max_digits=10, decimal_places=2, default=0.00)
+    created = models.DateTimeField(auto_now_add=True)
+    created_by = models.ForeignKey('auth.User', related_name='recreatedby', on_delete=models.SET_NULL, blank=True, null=True,default=None)
+    modified = models.DateTimeField(auto_now=True)
+    modified_by = models.ForeignKey('auth.User', on_delete=models.SET_NULL, related_name='remodifiedby', blank=True, null=True,default=None)
+
+    history = HistoricalRecords()
+
+    def __str__(self):
+        return self.sub_code.sub_code + " "+ self.description
+
+    def save(self, *args, **kwargs):
+        user = get_current_user()
+        if user and not user.pk:
+            user = None
+        if not self.pk:
+            self.created_by = user
+        self.modified_by = user
+        super(Revenue, self).save(*args, **kwargs)

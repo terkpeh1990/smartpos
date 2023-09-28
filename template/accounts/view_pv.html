@@ -44,16 +44,20 @@
 
                     </ul>
                     <div>
-                        {% if order.status == "Pending" or order.status == 'pending' %}
-                            <a class="btn btn-sm  btn-outline-primary " href="{% url 'accounts:approve' order.id %}">Approve</a>
-                            <a class="btn btn-sm  btn-outline-danger ml-4" href="{% url 'accounts:cancelled' order.id %}">Cancel</a>
+                        {% for group in  request.user.groups.all %}
+                            {% if group.name == 'manager'  %}
+                                {% if order.status == "Pending" or order.status == 'pending'  %}
+                                    <a class="btn btn-sm  btn-outline-primary " href="{% url 'accounts:approve' order.id %}">Approve</a>
+                                    <a class="btn btn-sm  btn-outline-danger ml-4" href="{% url 'accounts:cancelled' order.id %}">Cancel</a>
 
-                            <a class="btn btn-sm  btn-outline-warning ml-4" href="{% url 'accounts:pv_detail' order.id %}">Adjust Pv</a>
-                        {% else %}
-                         {% endif %}
-               
-                       
-                        
+                                    <a class="btn btn-sm  btn-outline-warning ml-4" href="{% url 'accounts:pv_detail' order.id %}">Adjust Pv</a>
+                               
+                                {% else %}
+
+                                {% endif %}
+                            {% endif %}
+                        {% endfor %}
+                    
                     </div>
                     
                 </div>
@@ -109,9 +113,9 @@
                 
                     <br>
                     <br>
-                    {% if general_ledger %}
+                    {% if expenditure %}
                     <div class='m-2'>
-                        <h5>PV Reference In General Ledger </h5>
+                        <h5>PV Reference In Expenditure </h5>
                     <div id="example1_wrapper" class="dataTables_wrapper dt-bootstrap4">
                         <div class="row">
                             <div class="col-12 col-sm-12 col-md-12">
@@ -125,16 +129,14 @@
                                             <th>Date</th>
                                             <th>Sub Code</th>
                                             <th>Description</th>
-                                            <th>DR   (GH&#8373)</th>
-                                            <th>CR   (GH&#8373)</th>
-                                        
+                                            <th>Amount  (GH&#8373)</th>
                                             <th>Created By</th>
 
                                             
                                         </tr>
                                     </thead>
                                     <tbody>
-                                        {% for item in general_ledger %}
+                                        {% for item in expenditure %}
                                         <tr>
                                             <td>{{item.id}}</td>
                                             <td>{{item.transactionref}}</td>
@@ -143,20 +145,10 @@
                                             <td>{{item.description}}</td>
                                             
                                             <td>
-                                                {% if item.debit > 0 %}
-                                                GH&#8373 {{item.debit}} 
-                                                {% else %}
-
-                                                {% endif %}
-                                            
-                                            </td>
-                                            <td>
-                                                {% if item.cedit > 0 %}
-                                                GH&#8373 {{item.cedit}} 
-                                                {% else %}
-                                                    
-                                                {% endif %}
                                                 
+                                                GH&#8373 {{item.amount}} 
+                                               
+                                            
                                             </td>
                                             
                                             <td>{{item.created_by}} -- {{item.created_by.first_name}}</td>
@@ -176,7 +168,7 @@
                     {% else %}
                     <div class="jumbotron">
                         <div class="col-md-10 mx-auto">
-                        <p class="d-flex justify-content-center"><b>No Ledger Transaction</b></p>
+                        <p class="d-flex justify-content-center"><b>No Expenditure</b></p>
                         </div>
                     </div>  
                     {% endif %}

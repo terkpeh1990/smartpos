@@ -10,13 +10,13 @@ def statement_of_accounts(request,pk):
     pv = Accumulated_fund.objects.get(id=pk)
     sub_account = Sub_Accounts.objects.filter(code__group='Revenue')
     expense_sub_account = Sub_Accounts.objects.filter(code__group='Expense',)
-    cash_eq = sub_account.values('sub_description').annotate(total=Sum('all_transaction__amount',filter=Q(all_transaction__account_period=pv.id))).values('sub_description','sub_code','total').exclude(total__lte=0)
-    expense_cash_eq = expense_sub_account.values('sub_description').annotate(total=Sum('all_transaction__amount',filter=Q(all_transaction__account_period=pv.id))).values('sub_description','sub_code','total').exclude(total__lte=0)
+    cash_eq = sub_account.values('sub_description').annotate(total=Sum('revenue__amount',filter=Q(revenue__account_period=pv.id))).values('sub_description','sub_code','total').exclude(total__lte=0)
+    expense_cash_eq = expense_sub_account.values('sub_description').annotate(total=Sum('expenditure__amount',filter=Q(expenditure__account_period=pv.id))).values('sub_description','sub_code','total').exclude(total__lte=0)
 
     total_transaction = All_Transaction.objects.filter(account_period=pv.id)
     
-    rev_cash_eq = All_Transaction.objects.filter(sub_code__code__group='Revenue',account_period=pv.id)
-    exp_cash_eq = All_Transaction.objects.filter(sub_code__code__group='Expense',account_period=pv.id)
+    rev_cash_eq = Revenue.objects.filter(account_period=pv.id)
+    exp_cash_eq = Expenditure.objects.filter(account_period=pv.id)
 
    
 

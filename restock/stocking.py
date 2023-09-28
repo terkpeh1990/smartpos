@@ -49,7 +49,7 @@ def add_stock(request,pk):
             daily_restock.save()
         else:
             total = 0.00
-            daily_restock.total_wages = total['cc']
+            daily_restock.total_wages = total
             daily_restock.save()
     except Restock_details.DoesNotExist:
         pass
@@ -64,6 +64,7 @@ def add_stock(request,pk):
             userprofile = Profile.objects.get(profile_code=profile)
             item = Products.objects.get(name=product) 
             qty =form.cleaned_data.get('quantity_produced')
+            requisition =form.cleaned_data.get('requisition')
             try:
                 item_in_inventory = Inventory.objects.get(product=item)
             except Inventory.DoesNotExist:
@@ -73,6 +74,7 @@ def add_stock(request,pk):
             if Restock_details.objects.filter(restock=daily_restock,profile=userprofile):
                 user_production = Restock_details.objects.get(restock=daily_restock,profile=userprofile)
                 user_production.quantity_produced+=qty
+                user_production.requisition =requisition
                 user_production.save()
                 
                 item_in_inventory.instock+=qty
@@ -81,7 +83,7 @@ def add_stock(request,pk):
                 messages.success(request,"Production added")
                 return redirect('production:add_stock',daily_restock.id)
             else:
-                user_production=Restock_details.objects.create(restock=daily_restock,product=item,profile=userprofile,quantity_produced=qty)
+                user_production=Restock_details.objects.create(restock=daily_restock,product=item,profile=userprofile,quantity_produced=qty,requisition=requisition)
                 
                 # Restock_history.objects.create(restock_detail=user_production,product=item,profile=userprofile,quantity=qty)
                 item_in_inventory.instock+=qty

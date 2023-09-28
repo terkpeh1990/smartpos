@@ -21,5 +21,8 @@ urlpatterns = [
  path('approve_return/<str:pk>/',sales_return.approve_return,name='approve_return'),
  path('comfirm_return/<str:pk>/',sales_return.comfirm_return,name='comfirm_return'),
  path('return_summery/<str:pk>/',sales_return.return_summery,name='return_summery'),
+ path('add_return_saless/<str:pk>/',orders.add_return_saless,name='add_return_saless'),
+ path('close_shitf_sales/<str:pk>/',orders.close_shitf_sales,name='close_shitf_sales'),
+ path('add_sales_amount/<str:pk>/',orders.add_sales_amount,name='add_sales_amount'),
 
  ]
