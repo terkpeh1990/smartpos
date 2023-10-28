@@ -72,6 +72,7 @@
                     {% url 'production:manage_damages' as manage_damages %}
                     {% url 'orders:manage_returns' as manage_returns %}
                     
+                    
                   
                     
               
@@ -79,6 +80,7 @@
                     {% if request.path == manage_orders %} menu-open {% endif %}
                     {% if request.path == manage_damages %} menu-open {% endif %}
                     {% if request.path == manage_returns %} menu-open {% endif %}
+                   
               
                   
                       ">
@@ -91,6 +93,7 @@
                         </p>
                       </a>
                       <ul class="nav nav-treeview">
+                        
                         
                         <li class="nav-item">
                           {% url 'orders:manage_orders' as manage_orders %}
@@ -344,6 +347,7 @@
                   {% url 'orders:manage_orders' as manage_orders %}
                   {% url 'production:manage_damages' as manage_damages %}
                   {% url 'orders:manage_returns' as manage_returns %}
+                  {% url 'orders:manage_car' as manage_car %}
                   
                 
                   
@@ -352,6 +356,7 @@
                   {% if request.path == manage_orders %} menu-open {% endif %}
                   {% if request.path == manage_damages %} menu-open {% endif %}
                   {% if request.path == manage_returns %} menu-open {% endif %}
+                  {% if request.path == manage_car %} menu-open {% endif %}
             
                 
                     ">
@@ -364,7 +369,13 @@
                       </p>
                     </a>
                     <ul class="nav nav-treeview">
-                      
+                      <li class="nav-item">
+                        {% url 'orders:manage_car' as manage_car %}
+                        <a href="{{ manage_car }}" class="nav-link {% if request.path == manage_car %} active {% endif %}">
+                          <i class="fas fa-users nav-icon "></i>
+                          <p>Cars</p>
+                        </a>
+                      </li>
                       <li class="nav-item">
                         {% url 'orders:manage_orders' as manage_orders %}
                         <a href="{{ manage_orders }}" class="nav-link {% if request.path == manage_orders %} active {% endif %}">

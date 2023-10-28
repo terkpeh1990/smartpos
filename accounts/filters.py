@@ -29,7 +29,7 @@ class ReceivableFilter(django_filters.FilterSet):
 
     class Meta:
         model = Revenue
-        fields = ['start_date','end_date']
+        fields = ['start_date','end_date','car']
 
 
 class PayablesFilter(django_filters.FilterSet):

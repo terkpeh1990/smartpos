@@ -7,6 +7,15 @@ from product.models import Requisition
 
 
 # Create your models here.
+class Car(models.Model):
+    
+    name = models.CharField(max_length=250)
+    created = models.DateTimeField(auto_now_add=True)
+
+    history = HistoricalRecords()
+
+    def __str__(self):
+        return str(self.name)
 
 class Orders(models.Model):
     sts= (
@@ -17,6 +26,7 @@ class Orders(models.Model):
     )
     id = models.CharField(max_length=100, primary_key=True)
     order_date = models.DateField()
+    car = models.ForeignKey(Car,on_delete=models.CASCADE,null=True, blank=True)
     status = models.CharField(max_length=10, choices= sts, default='pending')
     sales_posted = models.DecimalField(max_digits=10, decimal_places=2, default=0.00)
     created = models.DateTimeField(auto_now_add=True)
@@ -35,11 +45,12 @@ class Orders(models.Model):
         super(Orders, self).save(*args, **kwargs)
 
 
+
+   
 class Order_details(models.Model):
    
     order = models.ForeignKey(Orders, on_delete=models.CASCADE)
     item = models.ForeignKey(Products,on_delete=models.CASCADE)
-    
     unit_price = models.DecimalField(max_digits=10, decimal_places=2, default=0.00)
     quantity = models.PositiveIntegerField(default=0)
     quantity_returned = models.PositiveIntegerField(default=0)

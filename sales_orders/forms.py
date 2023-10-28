@@ -3,14 +3,23 @@ from django.forms.widgets import NumberInput
 from .import models
 
 
+class CarForm(forms.ModelForm):
+    
+    class Meta:
+        model = models.Car
+        fields = ('name',)
+
+
+
 class OrderForm(forms.ModelForm):
     
     order_date = forms.DateField(widget=NumberInput(attrs={'type': 'date'}),label='Select Date')
-    
+    car = forms.ModelChoiceField(
+         queryset=models.Car.objects.all().order_by('name'),label='Select Car')
+
     class Meta:
         model = models.Orders
-        fields = ('order_date',)
-
+        fields = ('order_date','car')
 
 
 
@@ -19,7 +28,6 @@ class OrderDetailForm(forms.ModelForm):
     item = forms.ModelChoiceField(
          queryset=models.Products.objects.all().order_by('name'),label='Select Product')
     
-
     class Meta:
         model = models.Order_details
         fields = ('item','quantity')

@@ -43,7 +43,7 @@
                                         {% elif order.status == "approved" %}
                                              <a class="btn  btn-outline-primary" href="{% url 'orders:comfirm_order' order.id %}">Comfirm Supply</a>
                                         {% elif order.status == "comfirmed" and order.sales_posted > 0 %}
-                                             <a class="btn  btn-outline-sucess" href="{% url 'orders:close_shitf_sales' order.id %}">Close Shift Sales</a>
+                                             <a class="btn  btn-outline-success" href="{% url 'orders:close_shitf_sales' order.id %}">Close Shift Sales</a>
                                         {% elif order.status == "comfirmed"  %}
                                              <a class="btn  btn-outline-primary" href="{% url 'orders:add_sales_amount' order.id %}">Enter Distribution Sales</a>
                                         {% else %}

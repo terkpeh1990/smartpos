@@ -34,6 +34,51 @@ def manage_orders(request):
     return render(request,template,context)
 
 
+def manage_car(request):
+    cars = Car.objects.all()
+
+    if request.method == 'POST':
+        form = CarForm(request.POST)
+        if form.is_valid():
+            stock=form.save()
+            messages.success(request,'Car Saved')
+            return redirect('orders:manage_car')
+    
+    else:
+        form = CarForm()
+
+    template = 'orders/manage_car.html'
+
+    context = {
+        'cars': cars,
+        'form':form,
+    }
+
+    return render(request,template,context)
+
+def edit_car(request,pk):
+    cars = Car.objects.all()
+    car = Car.objects.get(id=pk)
+
+    if request.method == 'POST':
+        form = CarForm(request.POST,instance=car)
+        if form.is_valid():
+            stock=form.save()
+            messages.success(request,'Car Updated')
+            return redirect('orders:manage_car')
+    
+    else:
+        form = CarForm(instance=car)
+
+    template = 'orders/manage_car.html'
+
+    context = {
+        'cars': cars,
+        'form':form,
+    }
+
+    return render(request,template,context)
+
 
 def add_orders(request,pk):
     order = Orders.objects.get(id=pk)
@@ -202,7 +247,7 @@ def close_shitf_sales(request,pk):
 
             except Inventory.DoesNotExist:
                 pass
-        Revenue.objects.create(account_period=ff,transaction_date=order.order_date,sub_code=sub_code,description="Supply of Water" ,amount=tt,transactionref=order.id)
+        Revenue.objects.create(account_period=ff,transaction_date=order.order_date,sub_code=sub_code,description="Supply of Water" ,amount=tt,car=order.car,transactionref=order.id)
     order.status = 'posted'
     order.save()
     messages.success(request,'Daily Shift Closed')

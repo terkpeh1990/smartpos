@@ -46,11 +46,14 @@
             <div class="ml-4 mr-4 ">
                 <form action="" method="Get" novalidate>
                     <div class="form-row ">
-                        <div class="form-group col-12 col-sm-12 col-md-6">
+                        <div class="form-group col-4 col-sm-12 col-md-4">
                             {{ myFilter.form.start_date|as_crispy_field }}
                         </div>
-                        <div class="form-group col-12 col-sm-12 col-md-6">
+                        <div class="form-group col-4 col-sm-12 col-md-4">
                             {{ myFilter.form.end_date|as_crispy_field }}
+                        </div>
+                        <div class="form-group col-4 col-sm-12 col-md-4">
+                            {{ myFilter.form.car|as_crispy_field }}
                         </div>
                         
                        
@@ -80,6 +83,8 @@
                                             aria-label="Browser: activate to sort column ascending">Sub Code</th>
                                         <th class="sorting" tabindex="0" aria-controls="example2" rowspan="1" colspan="1"
                                             aria-label="Browser: activate to sort column ascending">Description</th>
+                                        <th class="sorting" tabindex="0" aria-controls="example2" rowspan="1" colspan="1"
+                                            aria-label="Browser: activate to sort column ascending">Car</th>
                                        
                                         <th class="sorting" tabindex="0" aria-controls="example2" rowspan="1" colspan="1"
                                             aria-label="Browser: activate to sort column ascending">Amount</th>
@@ -100,6 +105,7 @@
                                         <td>{{ a.transaction_date}}</td>
                                         <td>{{a.sub_code.sub_code }} -- {{a.sub_code.sub_description}}</td>
                                         <td>{{a.description }}</td>
+                                        <td>{{a.car }}</td>
                                         <td>{{a.amount }}</td>
                                         <td>
                                 

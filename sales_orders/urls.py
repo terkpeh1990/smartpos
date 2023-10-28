@@ -8,6 +8,8 @@ app_name = 'orders'
 
 urlpatterns = [
  path('manage_orders',orders.manage_orders,name='manage_orders'),
+ path('manage_car',orders.manage_car,name='manage_car'),
+ path('manage_car/<str:pk>/update/',orders.edit_car,name='edit_car'),
  path('add_orders/<str:pk>/',orders.add_orders,name='add_orders'),
  path('approve_order/<str:pk>/',orders.approve_order,name='approve_order'),
  path('comfirm_order/<str:pk>/',orders.comfirm_order,name='comfirm_order'),

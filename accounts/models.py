@@ -9,6 +9,7 @@ from product.utils import incrementor
 from sales_orders.models import Orders
 import requests
 import sys
+from sales_orders.models import Car
 
 
 
@@ -350,6 +351,7 @@ class Revenue(models.Model):
     sub_code = models.ForeignKey(Sub_Accounts, on_delete=models.CASCADE)
     description = models.CharField(max_length=300)
     amount = models.DecimalField(max_digits=10, decimal_places=2, default=0.00)
+    car = models.ForeignKey(Car,on_delete=models.CASCADE,null=True, blank=True)
     created = models.DateTimeField(auto_now_add=True)
     created_by = models.ForeignKey('auth.User', related_name='recreatedby', on_delete=models.SET_NULL, blank=True, null=True,default=None)
     modified = models.DateTimeField(auto_now=True)

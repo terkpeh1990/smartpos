@@ -9,7 +9,7 @@ Orders
 {% block breadcrumb %}
 
     <li class="breadcrumb-item"><a href="#">Home</a></li>
-    <li class="breadcrumb-item active">Orders</li>
+    <li class="breadcrumb-item active">Cars</li>
 
 {% endblock breadcrumb %}
 {% block content%}
@@ -24,19 +24,16 @@ Orders
                     {% csrf_token %}
                     <div class="card-body">
                         <div class="row">
-                            <div class="form-group col-6 col-sm-12 col-md-6">
-                                {{ form.order_date|as_crispy_field }}
+                            <div class="form-group col-12 col-sm-12 col-md-12">
+                                {{ form.name|as_crispy_field }}
                             </div>
-                            <div class="form-group col-6 col-sm-12 col-md-6">
-                                {{ form.car|as_crispy_field }}
-                            </div>
-                            
+                           
                         </div>
                         
                         
                         <div class="row">
                             <div class="form-group col">
-                                <button type="submit" class="btn btn-outline-dark btn-sm">Proceed</button>
+                                <button type="submit" class="btn btn-outline-dark btn-sm">Save</button>
                             </div>
                             
                             
@@ -48,7 +45,7 @@ Orders
             </div>
             
 
-            {% if orders %}
+            {% if cars %}
             <div id="example2_wrapper" class="dataTables_wrapper dt-bootstrap4">
                 <div class="row">
                     <div class="col-12 col-sm-12 col-md-12">
@@ -61,10 +58,7 @@ Orders
                                         aria-label="Browser: activate to sort column ascending">Id</th>
                                     
                                     <th class="sorting" tabindex="0" aria-controls="example2" rowspan="1" colspan="1"
-                                        aria-label="Browser: activate to sort column ascending">Date</th>
-                                    
-                                    <th class="sorting" tabindex="0" aria-controls="example2" rowspan="1" colspan="1"
-                                        aria-label="Browser: activate to sort column ascending">Car</th>
+                                        aria-label="Browser: activate to sort column ascending">Name</th>
 
                                    
                                     <th class="sorting" tabindex="0" aria-controls="example2" rowspan="1" colspan="1"
@@ -72,24 +66,18 @@ Orders
                                 </tr>
                             </thead>
                             <tbody>
-                                {% for a in orders %}
+                                {% for a in cars %}
                                 </tr>
                                 <tr role="row" class="odd">
                                     <td>{{ a.id }}</td>                          
-                                    <td>{{ a.order_date}}</td>
-                                    <td>{{ a.car}}</td>
+                                    <td>{{ a.name}}</td>
                                 
                                     <td> 
-                                        <!-- <a class="btn btn-sm  btn-outline-warning" href="{% url 'production:edit_restock' a.id %}">Update</a> -->
+                                      
                                         
-                                        {% if a.status == 'pending' %}
-                                        <a class="btn btn-sm  btn-outline-primary" href="{% url 'orders:add_orders' a.id %}">add Details</a>
-                                        <a class="btn btn-sm  btn-outline-danger" href="{% url 'orders:order_summery' a.id %}">View</a>
-                                        {% else %}
-                                        <a class="btn btn-sm  btn-outline-danger" href="{% url 'orders:order_summery' a.id %}">View</a>
-                                        <!-- <a class="btn btn-sm  btn-outline-primary" href="{% url 'orders:creat_returns' a.id %}">Return Supply</a> -->
                                         
-                                        {% endif %}
+                                        <a class="btn btn-sm  btn-outline-danger" href="{% url 'orders:edit_car' a.id %}">Update</a>
+                                       
                                         
                                         
                                         
@@ -109,7 +97,7 @@ Orders
             <div class="m-4">
                 <div class="jumbotron">
                     <div class="col-md-10 mx-auto">
-                      <p class="d-flex justify-content-center"><b>No Orders</b></p>
+                      <p class="d-flex justify-content-center"><b>No Cars</b></p>
                     </div>
                 </div> 
             </div>
